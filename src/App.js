@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "./Store/Thunk";
 
 function App() {
+  const store = useSelector((state) => state);
+  const dispatch = useDispatch();
+  console.log(store);
+  const testFunc = () => {
+    dispatch(fetchUsers());
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      hello from app
+      <button onClick={testFunc}>fetch users</button>
+      <div>
+        {store.users.users.map((item) => {
+          const { id, name, username, email, phone } = item;
+          return (
+            <div key={id}>
+              <span>name: {name}</span> <span>username {username}</span>{" "}
+              <span> Email: {email}</span> <span>phone {phone}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
